@@ -28,7 +28,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         Button galleryButton = findViewById(R.id.galleryButton);
-        Button cameraButton = findViewById(R.id.galleryButton);
+        Button cameraButton = findViewById(R.id.cameraB);
+        galleryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //openSomeActivityForResult(null);
+                openSomeActivityForResult(null);
+            }
+        });
+        cameraButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //openSomeActivityForResult(null);
+                openSomeActivityForResult2(null);
+            }
+        });
         this.someActivityResultLauncher2 = registerForActivityResult(
                 new ActivityResultContracts.StartActivityForResult(),
                 new ActivityResultCallback<ActivityResult>() {
@@ -53,20 +67,13 @@ public class MainActivity extends AppCompatActivity {
                     public void onActivityResult(ActivityResult result) {
                         if (result.getResultCode() == Activity.RESULT_OK) {
                             // There are no request codes
-                            Bundle extras = result.getData().getExtras();
-                            Bitmap imageBitmap = (Bitmap) extras.get("data");
-                            ImageView imagen = findViewById(R.id.img);
-                            imagen.setImageBitmap(imageBitmap);
+                            Intent data = result.getData();
+                            Uri uri = data.getData();
+                            ImageView imageView = findViewById(R.id.img);
+                            imageView.setImageURI(uri);
                         }
                     }
                 });
-        galleryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //openSomeActivityForResult(null);
-                openSomeActivityForResult2(null);
-            }
-        });
     }
     public void openSomeActivityForResult(View view) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
